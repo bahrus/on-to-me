@@ -69,7 +69,7 @@ export function findMatches(start: Element | null, match: string, m: string | nu
 export function getToProp(css: string): string | null{
     const iPos = css.lastIndexOf('[');
     if(iPos === -1) return null;
-    return lispToCamel(css.substring(iPos, css.length - 1));
+    return lispToCamel(css.substring(iPos + 2, css.length - 1));
 }
 
 customElements.define('on-to-me', class extends HTMLElement{

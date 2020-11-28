@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "node node_modules/xtal-test/serve.js",
     "compress": "terser --compress -- on-to-me.js > dist/on-to-me.min.js"
   },
   "repository": {
@@ -12,7 +13,8 @@
     "url": "git+https://github.com/bahrus/on-to-me.git"
   },
   "devDependencies": {
-    "terser": "5.5.1"
+    "terser": "5.5.1",
+    "xtal-test": "0.0.48"
   },
   "author": "",
   "license": "MIT",
