@@ -4,11 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compress": "terser --compress -- on-to-me.js > dist/on-to-me.min.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bahrus/on-to-me.git"
+  },
+  "devDependencies": {
+    "terser": "5.5.1"
   },
   "author": "",
   "license": "MIT",
