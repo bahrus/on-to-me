@@ -16,7 +16,7 @@ Sample syntax:
 <div -text-content></div>
 ```
 
-Demo
+[Demo](https://jsfiddle.net/bahrus/5d7t064q/)
 
 Features supported:
 
@@ -63,7 +63,7 @@ This component was designed to be small and simple, with no dependencies, a kind
 ## CDN
 
 ```html
-<script type=module src=https://cdn.jsdelivr.net/npm/on-to-me@0.0.4/dist/on-to-me.min.js>
+<script type=module src=https://cdn.jsdelivr.net/npm/on-to-me@0.0.4/dist/on-to-me.min.js></script>
 ```
 
 
