@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "serve": "node node_modules/xtal-test/serve.js",
-    "compress": "terser --compress -- on-to-me.js > dist/on-to-me.min.js"
+    "compress": "terser --compress --mangle -- on-to-me.js > dist/on-to-me.min.js"
   },
   "repository": {
     "type": "git",
