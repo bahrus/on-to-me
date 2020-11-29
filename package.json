@@ -1,12 +1,30 @@
 {
   "name": "on-to-me",
   "version": "0.0.0",
-  "description": "",
-  "main": "index.js",
+  "keywords": [
+    "webcomponents",
+    "webcomponent",
+    "customelements",
+    "customelement",
+    "iframe",
+    "iframe-persister"
+  ],
+  "exports": {
+    "import": "./on-to-me.js",
+    "default": "./on-to-me.js"
+  },
+  "files": [
+    "on-to-me.js"
+  ],
+  "types": "types.d.ts",
+  "description": "Connect web components together declaratively.",
+  "main": "on-to-me.js",
+  "module": "on-to-me.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "serve": "node node_modules/xtal-test/serve.js",
-    "compress": "terser --compress --mangle -- on-to-me.js > dist/on-to-me.min.js"
+    "compress": "terser --compress --mangle -- on-to-me.js > dist/on-to-me.min.js",
+    "package-check": "package-check"
   },
   "repository": {
     "type": "git",
@@ -14,9 +32,10 @@
   },
   "devDependencies": {
     "terser": "5.5.1",
-    "xtal-test": "0.0.48"
+    "xtal-test": "0.0.48",
+    "@skypack/package-check": "0.2.2"
   },
-  "author": "",
+  "author": "anderson.bruce.b@gmail.com",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/bahrus/on-to-me/issues"

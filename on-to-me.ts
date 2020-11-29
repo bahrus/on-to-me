@@ -12,6 +12,10 @@ export function getPreviousSib(self: Element) : Element | null{
    return prevSib;
 }
 
+/**
+ * Decrement "disabled" counter, remove when reaches 0
+ * @param prevSib 
+ */
 export function nudge(prevSib: Element) {
     const da = prevSib.getAttribute('disabled');
     if (da !== null) {

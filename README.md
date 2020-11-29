@@ -1,5 +1,7 @@
 # on-to-me
 
+<a href="https://nodei.co/npm/on-to-me/"><img src="https://nodei.co/npm/on-to-me.png"></a>
+
 on-to-me is a small (~900b) bare-bones version of [p-d](https://github.com/bahrus/p-et-alia).
 
 Sample syntax:
