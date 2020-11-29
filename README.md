@@ -2,6 +2,8 @@
 
 <a href="https://nodei.co/npm/on-to-me/"><img src="https://nodei.co/npm/on-to-me.png"></a>
 
+<img src="https://badgen.net/bundlephobia/minzip/on-to-me">
+
 on-to-me is a small (~900b) bare-bones version of [p-d](https://github.com/bahrus/p-et-alia).
 
 Sample syntax:
