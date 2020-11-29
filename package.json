@@ -14,7 +14,8 @@
     "default": "./on-to-me.js"
   },
   "files": [
-    "on-to-me.js"
+    "on-to-me.js",
+    "dist/on-to-me.min.js"
   ],
   "types": "types.d.ts",
   "description": "Connect web components together declaratively.",

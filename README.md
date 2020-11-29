@@ -6,7 +6,7 @@
 
 on-to-me is a small (~900b) bare-bones version of [p-d](https://github.com/bahrus/p-et-alia).
 
-Like p-et-alia components, one of the goals is to reduce, as much as possible, the gap between "First Meaningful Paint" and "Time to Interactive".  on-to-me focuses squarely on that problem, whereas p-et-alia addresses larger issues.  on-to-me will be in the future provide some common functions needed by p-et-alia.
+Like p-et-alia components, one of the goals is to reduce, as much as possible, the gap between "First Meaningful Paint" and "Time to Interactive".  on-to-me focuses squarely on that problem, whereas p-et-alia addresses larger issues.  on-to-me will, in the future, provide some common functions used by p-et-alia.
 
 Sample syntax:
 
@@ -15,6 +15,8 @@ Sample syntax:
 <on-to-me on=click to=[-text-content] val=target.dataset.test m=1></on-to-me>
 <div -text-content></div>
 ```
+
+Demo
 
 Features supported:
 
@@ -41,7 +43,7 @@ Features not supported:
 
 ## Bootstrapping
 
-This component was designed to be small and simple, with no dependencies, a kind of "bootup" component that could, if needed, by replaced by a more sophisticated component, like p-d, once the download for p-d is complete.  As such, it might be best to inline the [minified version](https://raw.githubusercontent.com/bahrus/on-to-me/baseline/dist/on-to-me.min.js) directly in index.html (or the equivalent):
+This component was designed to be small and simple, with no dependencies, a kind of "bootup" component that could, if needed, be replaced by a more sophisticated component, like p-d, once the download for p-d is complete.  As such, it might be best to inline the [minified version](https://raw.githubusercontent.com/bahrus/on-to-me/baseline/dist/on-to-me.min.js) directly in index.html (or the equivalent):
 
 ```html
 <!DOCTYPE html>
@@ -57,3 +59,12 @@ This component was designed to be small and simple, with no dependencies, a kind
 
 1.  npm install --save on-to-me
 2.  import on-to-me/on-to-me.js
+
+## CDN
+
+```html
+<script type=module src=https://cdn.jsdelivr.net/npm/on-to-me@0.0.4/dist/on-to-me.min.js>
+```
+
+
+
