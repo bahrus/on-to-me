@@ -88,7 +88,7 @@ export function getToProp(to: string, careOf: string | null): string | null{
 }
 
 
-customElements.define('on-to-me', class extends HTMLElement{
+export class OnToMe extends HTMLElement{
     connectedCallback(){
         this.style.display = 'none';
         const elToObserve = getPreviousSib(this)!;
@@ -107,5 +107,13 @@ customElements.define('on-to-me', class extends HTMLElement{
             });
         });
     }
-});
+}
+
+customElements.define('on-to-me', OnToMe); 
+
+declare global {
+    interface HTMLElementTagNameMap {
+        "on-to-me": OnToMe,
+    }
+}
 
