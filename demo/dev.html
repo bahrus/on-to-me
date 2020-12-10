@@ -15,8 +15,8 @@
 </head>
 <body>
     
-    <button data-test=hello>My button</button>
-    <on-to-me on=click to=[-text-content] val=target.dataset.test m=1></on-to-me>
+    <button data-test=hello type=button>My button</button>
+    <on-to-me on=click to=[-text-content] me=1 val=target.dataset.test init-val=dataset.test></on-to-me>
     <div -text-content></div>
     <script type=module src=../on-to-me.js></script>
 </body>

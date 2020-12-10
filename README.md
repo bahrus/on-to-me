@@ -4,7 +4,7 @@
 
 <img src="https://badgen.net/bundlephobia/minzip/on-to-me">
 
-on-to-me is a small (~900b) bare-bones version of [p-d](https://github.com/bahrus/p-et-alia).
+on-to-me is a small (~1kb) bare-bones version of [p-d](https://github.com/bahrus/p-et-alia).
 
 Like p-et-alia components, one of the goals is to reduce, as much as possible, the gap between "First Meaningful Paint" and "Time to Interactive".  on-to-me focuses squarely on that problem, whereas p-et-alia addresses larger issues.  on-to-me will, in the future, provide some common functions used by p-et-alia.
 
@@ -12,7 +12,7 @@ Sample syntax:
 
 ```html
 <button data-test=hello>My button</button>
-<on-to-me on=click to=[-text-content] val=target.dataset.test m=1></on-to-me>
+<on-to-me on=click to=[-text-content] me=1 val=target.dataset.test ></on-to-me>
 <div -text-content></div>
 ```
 
@@ -24,13 +24,12 @@ Attributes:  on, to, val, m, care-of, from
 
 Features not supported:
 
-1.  Initial fake event
-2.  Ability to block stopping propagation
-3.  Using properties instead of attributes
-4.  Debugging support
-5.  Mutation observing -- keeping newly created elements in sync even after event occurred.
-6.  Ability to override value from event, filter events.
-7.  More
+1.  Ability to block stopping propagation
+2.  Using properties instead of attributes to define the orchestration.
+3.  Debugging support
+4.  Mutation observing -- keeping newly created elements in sync even after event occurred.
+5.  Ability to override value from event, filter events.
+6.  More
 
 ## Running Locally
 

@@ -87,6 +87,15 @@ export function getToProp(to: string, careOf: string | null): string | null{
     return lispToCamel(to.substring(iPos + 2, to.length - 1));
 }
 
+export function passVal(val, g){
+    const to = g('to')!;
+    const careOf = g('care-of');
+    const matches = findMatches(this, to, g('me'), g('from'), careOf);
+    const toProp = getToProp(to, careOf);
+    matches.forEach( match => {
+        match[toProp] = val;
+    });
+}
 
 export class OnToMe extends HTMLElement{
     connectedCallback(){
@@ -96,24 +105,24 @@ export class OnToMe extends HTMLElement{
         const g = this.getAttribute.bind(this);
         elToObserve.addEventListener(g('on')!, e => {
             e.stopPropagation();
-            const val = getProp(e, g('val')!.split('.'), this);
+            const val = getProp(e, g('val')?.split('.'), this);
             if(val === undefined) return;
-            const to = g('to')!;
-            const careOf = g('care-of');
-            const matches = findMatches(this, to, g('m'), g('from'), careOf);
-            const toProp = getToProp(to, careOf);
-            matches.forEach( match => {
-                match[toProp] = val;
-            });
+            passVal(val, g);
         });
+        const initVal = g('init-val');
+        if(initVal !== null){
+            const val = getProp(elToObserve, initVal.split('.'), this);
+            passVal(val, g);
+        }
     }
 }
 
-customElements.define('on-to-me', OnToMe); 
+const otm = 'on-to-me';
+if(!customElements.get(otm)) customElements.define(otm, OnToMe); 
 
 declare global {
     interface HTMLElementTagNameMap {
-        "on-to-me": OnToMe,
+        [otm]: OnToMe,
     }
 }
 
