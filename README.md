@@ -20,7 +20,7 @@ Sample syntax:
 
 Features supported:
 
-Attributes:  on, to, val, m, care-of, from
+Attributes:  on, to, val, m, care-of, from, init-val
 
 Features not supported:
 
