@@ -20,16 +20,17 @@ Sample syntax:
 
 Features supported:
 
-Attributes:  on, to, val, me, care-of, from, init-val
+Attributes:  on, to, val, me, care-of, from, init-val, mutate-event, parse-val-as
+
+mutate-event is used in conjunction with a web component like mut-obs, which can raise events when mutations occur.
 
 Features not supported:
 
-1.  Ability to block stopping propagation
+1.  Ability to block stopping propagation -- always blocks propagation
 2.  Using properties instead of attributes to define the orchestration.
 3.  Debugging support
-4.  Mutation observing -- keeping newly created elements in sync even after event occurred.
-5.  Ability to override value from event, filter events.
-6.  More
+4.  Ability to override value from event, filter events.
+5.  More
 
 ## Running Locally
 

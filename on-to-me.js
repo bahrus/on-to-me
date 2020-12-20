@@ -45,6 +45,32 @@ export function getProp(val, pathTokens, src) {
     });
     return context;
 }
+export function convert(val, parseValAs) {
+    if (parseValAs === null)
+        return val;
+    let ret = val;
+    switch (this.parseValAs) {
+        case 'bool':
+            ret = val === 'true';
+            break;
+        case 'int':
+            ret = parseInt(val);
+            break;
+        case 'float':
+            ret = parseFloat(val);
+            break;
+        case 'date':
+            ret = new Date(val);
+            break;
+        case 'truthy':
+            ret = !!val;
+            break;
+        case 'falsy':
+            ret = !val;
+            break;
+    }
+    return ret;
+}
 const ltcRe = /(\-\w)/g;
 export function lispToCamel(s) {
     return s.replace(ltcRe, function (m) { return m[1].toUpperCase(); });
@@ -110,14 +136,16 @@ export class OnToMe extends HTMLElement {
             });
         const initVal = g('init-val');
         if (initVal !== null) {
-            const val = getProp(elToObserve, initVal.split('.'), this);
+            let val = getProp(elToObserve, initVal.split('.'), this);
+            val = convert(val, g('parse-val-as'));
             passVal(val, g);
         }
     }
     handleEvent() {
-        const val = getProp(this._lastEvent, this._g('val')?.split('.'), this);
+        let val = getProp(this._lastEvent, this._g('val')?.split('.'), this);
         if (val === undefined)
             return;
+        val = convert(val, this._g('parse-val-as'));
         passVal(val, this._g);
     }
 }
