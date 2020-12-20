@@ -10,8 +10,8 @@
     "iframe-persister"
   ],
   "exports": {
-    "import": "./on-to-me.js",
-    "default": "./on-to-me.js"
+    ".": "./on-to-me.js",
+    "./on-to-me.js": "./on-to-me.js"
   },
   "files": [
     "on-to-me.js",
