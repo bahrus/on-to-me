@@ -4,10 +4,7 @@
 export function getPreviousSib(self: Element) : Element | null{
    let prevSib: Element | null = self;
    while(prevSib && (prevSib.hasAttribute('on'))){
-       prevSib = prevSib.previousElementSibling!;
-       if(prevSib === null) {
-           prevSib = self.parentElement;
-       }
+       prevSib = prevSib.previousElementSibling || self.parentElement;
    }
    return prevSib;
 }
@@ -97,23 +94,35 @@ export function passVal(val, g){
     });
 }
 
+
+
 export class OnToMe extends HTMLElement{
+    _lastEvent: Event;
+    _g: any;
     connectedCallback(){
         this.style.display = 'none';
         const elToObserve = getPreviousSib(this)!;
         nudge(elToObserve);
-        const g = this.getAttribute.bind(this);
-        elToObserve.addEventListener(g('on')!, e => {
+        const g = this._g = this.getAttribute.bind(this);
+        elToObserve.addEventListener(g('on')!, (e:Event) => {
             e.stopPropagation();
-            const val = getProp(e, g('val')?.split('.'), this);
-            if(val === undefined) return;
-            passVal(val, g);
+            this._lastEvent = e;
+            this.handleEvent();
+        });
+        const mutateEvent = g('mutate-event');
+        if(mutateEvent !== null) this.parentElement?.addEventListener(mutateEvent, (e:Event) => {
+            this.handleEvent();
         });
         const initVal = g('init-val');
         if(initVal !== null){
             const val = getProp(elToObserve, initVal.split('.'), this);
             passVal(val, g);
         }
+    }
+    handleEvent(){
+        const val = getProp(this._lastEvent, this._g('val')?.split('.'), this);
+        if(val === undefined) return;
+        passVal(val, this._g);
     }
 }
 
