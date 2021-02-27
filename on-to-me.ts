@@ -80,7 +80,7 @@ export function lispToCamel(s: string){
 }
 
 export function findMatches(start: Element, match: string, m: string | null, from: string | null, careOf: string | null): Element[]{
-    const returnObj = [] as Element[];
+    let returnObj = [] as Element[];
     const ubound = m == null ? Infinity : parseInt(m);
     let count = 0;
     if(from){
@@ -92,7 +92,7 @@ export function findMatches(start: Element, match: string, m: string | null, fro
         if(start.matches(match)) {
             if(careOf){
                 const careOfs = Array.from(start.querySelectorAll(careOf));
-                returnObj.concat(careOfs);
+                returnObj = returnObj.concat(careOfs);
                 count += careOfs.length;
             }else{
                 count++;

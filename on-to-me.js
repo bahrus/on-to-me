@@ -76,7 +76,7 @@ export function lispToCamel(s) {
     return s.replace(ltcRe, function (m) { return m[1].toUpperCase(); });
 }
 export function findMatches(start, match, m, from, careOf) {
-    const returnObj = [];
+    let returnObj = [];
     const ubound = m == null ? Infinity : parseInt(m);
     let count = 0;
     if (from) {
@@ -89,7 +89,7 @@ export function findMatches(start, match, m, from, careOf) {
         if (start.matches(match)) {
             if (careOf) {
                 const careOfs = Array.from(start.querySelectorAll(careOf));
-                returnObj.concat(careOfs);
+                returnObj = returnObj.concat(careOfs);
                 count += careOfs.length;
             }
             else {
