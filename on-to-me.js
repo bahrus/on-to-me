@@ -104,10 +104,11 @@ export function findMatches(start, match, m, from, careOf) {
     return returnObj;
 }
 export function getToProp(to, careOf) {
-    const iPos = (careOf || to).lastIndexOf('[');
+    const target = careOf || to;
+    const iPos = target.lastIndexOf('[');
     if (iPos === -1)
         return null;
-    return lispToCamel(to.substring(iPos + 2, to.length - 1));
+    return lispToCamel(target.substring(iPos + 2, target.length - 1));
 }
 export function passVal(val, g, self) {
     const to = g('to');

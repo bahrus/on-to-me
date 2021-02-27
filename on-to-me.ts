@@ -106,9 +106,10 @@ export function findMatches(start: Element, match: string, m: string | null, fro
 }
 
 export function getToProp(to: string, careOf: string | null): string | null{
-    const iPos = (careOf || to).lastIndexOf('[');
+    const target = careOf || to;
+    const iPos = target.lastIndexOf('[');
     if(iPos === -1) return null;
-    return lispToCamel(to.substring(iPos + 2, to.length - 1));
+    return lispToCamel(target.substring(iPos + 2, target.length - 1));
 }
 
 export function passVal(val, g, self){
