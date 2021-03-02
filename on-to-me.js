@@ -3,7 +3,8 @@
 */
 export function getPreviousSib(self) {
     let prevSib = self;
-    while (prevSib && (prevSib.hasAttribute('on'))) {
+    const observe = self.getAttribute('observe');
+    while (prevSib && (prevSib.hasAttribute('on') || (observe !== null && !prevSib.matches(observe)))) {
         prevSib = prevSib.previousElementSibling || self.parentElement;
     }
     return prevSib;
