@@ -125,7 +125,7 @@ export function passVal(val, g, self){
 
 
 
-export class OnToMe extends HTMLElement{
+export class OnToMe extends HTMLElement {
     _lastEvent: Event;
     _g: any;
     connectedCallback(){

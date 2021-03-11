@@ -1,0 +1,1 @@
+export interface OnToMeProps extends Partial<HTMLElement>{}

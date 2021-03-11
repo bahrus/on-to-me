@@ -22,7 +22,9 @@ Features supported:
 
 Attributes:  on, to, val, me, care-of, from, init-val, mutate-event, parse-val-as
 
-mutate-event is used in conjunction with a web component like mut-obs, which can raise events when mutations occur.
+mutate-event is used in conjunction with a web component like [mut-obs](https://github.com/bahrus/mut-obs), which can raise events when mutations occur.
+
+init-val allows us to pass an initial value from the observed element (e.g. init-val=value for an input element) just before attaching the event handler.
 
 Features not supported:
 
