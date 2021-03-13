@@ -1,9 +1,9 @@
 /**
 * get previous sibling
 */
-export function getPreviousSib(self: Element) : Element | null{
+export function getPreviousSib(self: Element, observe: string | null | undefined) : Element | null{
    let prevSib: Element | null = self;
-   const observe = self.getAttribute('observe')
+   //const observe = self.getAttribute('observe')
    while(prevSib && (prevSib.hasAttribute('on') || (observe !== null && !prevSib.matches(observe)))){
        prevSib = prevSib.previousElementSibling || self.parentElement;
    }
@@ -130,9 +130,10 @@ export class OnToMe extends HTMLElement {
     _g: any;
     connectedCallback(){
         this.style.display = 'none';
-        const elToObserve = getPreviousSib(this)!;
-        nudge(elToObserve);
         const g = this._g = this.getAttribute.bind(this);
+        const elToObserve = getPreviousSib(this, g('observe'))!;
+        nudge(elToObserve);
+        
         elToObserve.addEventListener(g('on')!, (e:Event) => {
             e.stopPropagation();
             this._lastEvent = e;
