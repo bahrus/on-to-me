@@ -80,9 +80,9 @@ export function lispToCamel(s: string){
     return s.replace(ltcRe, function(m){return m[1].toUpperCase();});
 }
 
-export function findMatches(start: Element, match: string, m: string | null, from: string | null, careOf: string | null): Element[]{
+export function findMatches(start: Element, match: string, m: number | undefined, from: string | null, careOf: string | null): Element[]{
     let returnObj = [] as Element[];
-    const ubound = m == null ? Infinity : parseInt(m);
+    const ubound = m ?? Infinity;
     let count = 0;
     if(from){
         start = start.closest(from);
@@ -113,13 +113,13 @@ export function getToProp(to: string, careOf: string | null): string | null{
     return lispToCamel(target.substring(iPos + 2, target.length - 1));
 }
 
-export function passVal(val, self, to, careOf, me, from){
-    
-    const matches = findMatches(self, to, me, from, careOf);
+export function passVal(val: any, self: HTMLElement, to: string | undefined, careOf: string | undefined, me: number | undefined, from, cachedMatches?: Element[] | undefined){
+    const matches = cachedMatches ?? findMatches(self, to, me, from, careOf);
     const toProp = getToProp(to, careOf);
     matches.forEach( match => {
         match[toProp] = val;
     });
+    return matches;
 }
 
 
@@ -145,7 +145,9 @@ export class OnToMe extends HTMLElement {
         if(initVal !== null){
             let val = getProp(elToObserve, initVal.split('.'), this);
             val = convert(val, g('parse-val-as'));
-            passVal(val, this, g('to')!, g('care-of'), g('me'), g('from'));
+            const me = g('me');
+            const m = me === null ? Infinity : parseInt(me);
+            passVal(val, this, g('to')!, g('care-of'), m, g('from'));
         }
     }
     handleEvent(){

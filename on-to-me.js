@@ -78,7 +78,7 @@ export function lispToCamel(s) {
 }
 export function findMatches(start, match, m, from, careOf) {
     let returnObj = [];
-    const ubound = m == null ? Infinity : parseInt(m);
+    const ubound = m ?? Infinity;
     let count = 0;
     if (from) {
         start = start.closest(from);
@@ -111,12 +111,13 @@ export function getToProp(to, careOf) {
         return null;
     return lispToCamel(target.substring(iPos + 2, target.length - 1));
 }
-export function passVal(val, self, to, careOf, me, from) {
-    const matches = findMatches(self, to, me, from, careOf);
+export function passVal(val, self, to, careOf, me, from, cachedMatches) {
+    const matches = cachedMatches ?? findMatches(self, to, me, from, careOf);
     const toProp = getToProp(to, careOf);
     matches.forEach(match => {
         match[toProp] = val;
     });
+    return matches;
 }
 export class OnToMe extends HTMLElement {
     connectedCallback() {
@@ -138,7 +139,9 @@ export class OnToMe extends HTMLElement {
         if (initVal !== null) {
             let val = getProp(elToObserve, initVal.split('.'), this);
             val = convert(val, g('parse-val-as'));
-            passVal(val, this, g('to'), g('care-of'), g('me'), g('from'));
+            const me = g('me');
+            const m = me === null ? Infinity : parseInt(me);
+            passVal(val, this, g('to'), g('care-of'), m, g('from'));
         }
     }
     handleEvent() {
