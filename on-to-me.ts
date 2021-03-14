@@ -113,16 +113,14 @@ export function getToProp(to: string, careOf: string | null): string | null{
     return lispToCamel(target.substring(iPos + 2, target.length - 1));
 }
 
-export function passVal(val, g, self){
-    const to = g('to')!;
-    const careOf = g('care-of');
-    const matches = findMatches(self, to, g('me'), g('from'), careOf);
+export function passVal(val, self, to, careOf, me, from){
+    
+    const matches = findMatches(self, to, me, from, careOf);
     const toProp = getToProp(to, careOf);
     matches.forEach( match => {
         match[toProp] = val;
     });
 }
-
 
 
 export class OnToMe extends HTMLElement {
@@ -147,14 +145,17 @@ export class OnToMe extends HTMLElement {
         if(initVal !== null){
             let val = getProp(elToObserve, initVal.split('.'), this);
             val = convert(val, g('parse-val-as'));
-            passVal(val, g, this);
+            passVal(val, this, g('to')!, g('care-of'), g('me'), g('from'));
         }
     }
     handleEvent(){
         let val = getProp(this._lastEvent, this._g('val')?.split('.'), this);
         if(val === undefined) return;
         val = convert(val, this._g('parse-val-as'));
-        passVal(val, this._g, this);
+        const g = this._g;
+        const to = this._g('to')!;
+        const careOf = this._g('care-of');
+        passVal(val, this, g('to')!, g('care-of'), g('me'), g('from'));
     }
 }
 
