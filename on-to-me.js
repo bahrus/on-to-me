@@ -105,10 +105,11 @@ export function findMatches(start, match, m, from, careOf) {
     return returnObj;
 }
 export function getToProp(to, careOf) {
-    const target = careOf || to;
+    let target = careOf || to;
     const iPos = target.lastIndexOf('[');
     if (iPos === -1)
         return null;
+    target = target.replace('[data-', '[-');
     return lispToCamel(target.substring(iPos + 2, target.length - 1));
 }
 export function passVal(val, self, to, careOf, me, from, cachedMatches) {
