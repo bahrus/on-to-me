@@ -127,7 +127,8 @@ export function passVal(
 
 
 export class OnToMe extends HTMLElement {
-    _lastEvent: Event;
+    //_lastEvent: Event;
+    _lastVal: any;
     _g: any;
     connectedCallback(){
         this.style.display = 'none';
@@ -137,31 +138,38 @@ export class OnToMe extends HTMLElement {
         
         elToObserve.addEventListener(g('on')!, (e:Event) => {
             e.stopPropagation();
-            this._lastEvent = e;
-            this.handleEvent();
+            //this._lastEvent = e;
+            this.getVal(e);
         });
         const mutateEvent = g('mutate-event');
         if(mutateEvent !== null) this.parentElement?.addEventListener(mutateEvent, (e:Event) => {
-            this.handleEvent();
+            this.putVal();
         });
         const initVal = g('init-val');
         if(initVal !== null){
             let val = getProp(elToObserve, initVal.split('.'), this);
             val = convert(val, g('parse-val-as'));
+            this._lastVal = val;
             const me = g('me');
             const m = me === null ? Infinity : parseInt(me);
             passVal(val, this, g('to')!, g('care-of'), m, g('from'), g('prop'));
         }
     }
-    handleEvent(){
-        let val = getProp(this._lastEvent, this._g('val')?.split('.'), this);
+    getVal(lastEvent: Event){
+        let val = getProp(lastEvent, this._g('val')?.split('.'), this);
         if(val === undefined) return;
         val = convert(val, this._g('parse-val-as'));
+        this._lastVal = val;
+        this.putVal();
+    }
+    putVal(){
+        if(this._lastVal === undefined) return;
         const g = this._g;
         const to = this._g('to')!;
         const careOf = this._g('care-of');
-        passVal(val, this, g('to')!, g('care-of'), g('me'), g('from'), g('prop'));
+        passVal(this._lastVal, this, g('to')!, g('care-of'), g('me'), g('from'), g('prop'));
     }
+
 }
 
 const otm = 'on-to-me';
