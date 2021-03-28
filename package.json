@@ -32,10 +32,10 @@
     "url": "git+https://github.com/bahrus/on-to-me.git"
   },
   "devDependencies": {
-    "terser": "5.5.1",
-    "xtal-test": "0.0.48",
     "@skypack/package-check": "0.2.2",
-    "mut-obs": "0.0.0"
+    "mut-obs": "0.0.3",
+    "terser": "5.6.1",
+    "xtal-test": "0.0.50"
   },
   "author": "anderson.bruce.b@gmail.com",
   "license": "MIT",

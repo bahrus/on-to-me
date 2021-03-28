@@ -104,19 +104,20 @@ export function findMatches(start, match, m, from, careOf) {
     }
     return returnObj;
 }
-export function getToProp(to, careOf) {
+export function getToProp(to, careOf, asStrAttr) {
     let target = careOf || to;
     const iPos = target.lastIndexOf('[');
     if (iPos === -1)
         return null;
     target = target.replace('[data-', '[-');
-    return lispToCamel(target.substring(iPos + 2, target.length - 1));
+    target = target.substring(iPos + 2, target.length - 1);
+    return asStrAttr ? target : lispToCamel(target);
 }
-export function passVal(val, self, to, careOf, me, from, prop, cachedMatches) {
+export function passVal(val, self, to, careOf, me, from, prop, asStrAttr, cachedMatches) {
     const matches = cachedMatches ?? findMatches(self, to, me, from, careOf);
-    const toProp = prop || getToProp(to, careOf);
+    const toProp = prop || getToProp(to, careOf, asStrAttr);
     matches.forEach(match => {
-        match[toProp] = val;
+        asStrAttr ? match.setAttribute(toProp, val) : match[toProp] = val;
     });
     return matches;
 }

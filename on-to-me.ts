@@ -106,21 +106,22 @@ export function findMatches(start: Element, match: string, m: number | undefined
     return returnObj;
 }
 
-export function getToProp(to: string, careOf: string | null): string | null{
+export function getToProp(to: string, careOf: string | null, asStrAttr: boolean): string | null{
     let target = careOf || to;
     const iPos = target.lastIndexOf('[');
     if(iPos === -1) return null;
     target = target.replace('[data-', '[-');
-    return lispToCamel(target.substring(iPos + 2, target.length - 1));
+    target = target.substring(iPos + 2, target.length - 1);
+    return asStrAttr ? target : lispToCamel(target);
 }
 
 export function passVal(
     val: any, self: HTMLElement, to: string | undefined, careOf: string | undefined, 
-    me: number | undefined, from, prop: string | undefined, cachedMatches?: Element[] | undefined){
+    me: number | undefined, from, prop: string | undefined, asStrAttr: boolean, cachedMatches?: Element[] | undefined){
     const matches = cachedMatches ?? findMatches(self, to, me, from, careOf);
-    const toProp = prop || getToProp(to, careOf);
+    const toProp = prop || getToProp(to, careOf, asStrAttr);
     matches.forEach( match => {
-        match[toProp] = val;
+        asStrAttr ? match.setAttribute(toProp, val) :  match[toProp] = val;
     });
     return matches;
 }
