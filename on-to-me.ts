@@ -6,7 +6,7 @@ import {asAttr} from './types.d.js';
 export function getPreviousSib(self: Element, observe: string | null | undefined) : Element | null{
    let prevSib: Element | null = self;
    //const observe = self.getAttribute('observe')
-   while(prevSib && (prevSib.hasAttribute('on') || (observe !== null && !prevSib.matches(observe)))){
+   while(prevSib && (prevSib.hasAttribute('on') || (observe !== null && observe !== undefined && !prevSib.matches(observe)))){
        prevSib = prevSib.previousElementSibling || self.parentElement;
    }
    return prevSib;
@@ -54,7 +54,7 @@ export function getProp(val: any, pathTokens: (string | [string, string[]])[], s
 export function convert(val: string, parseValAs: string | null){
     if(parseValAs === null) return val;
     let ret  = val as any;
-    switch(this.parseValAs){
+    switch(parseValAs){
         case 'bool':
             ret = val === 'true';
             break;
@@ -82,34 +82,37 @@ export function lispToCamel(s: string){
     return s.replace(ltcRe, function(m){return m[1].toUpperCase();});
 }
 
-export function findMatches(start: Element, match: string, m: number | undefined, from: string | null, careOf: string | null): Element[]{
+export function findMatches(start: Element, match: string | undefined | null, m: number | undefined, from: string | null | undefined, careOf: string | null | undefined): Element[]{
     let returnObj = [] as Element[];
+    match = match || '*';
     const ubound = m ?? Infinity;
     let count = 0;
+    let start2;
     if(from){
-        start = start.closest(from);
+        start2 = start.closest(from);
     }else{
-        start = start.nextElementSibling;
+        start2 = start.nextElementSibling;
     }
-    while(start !== null){
-        if(start.matches(match)) {
+    while(start2 !== null){
+        if(start2.matches(match)) {
             if(careOf){
-                const careOfs = Array.from(start.querySelectorAll(careOf));
+                const careOfs = Array.from(start2.querySelectorAll(careOf));
                 returnObj = returnObj.concat(careOfs);
                 count += careOfs.length;
             }else{
                 count++;
-                returnObj.push(start);
+                returnObj.push(start2);
             }
             if(count > ubound) break;
         }
-        start = start.nextElementSibling;
+        start2 = start2.nextElementSibling;
     }
     return returnObj;
 }
 
-export function getToProp(to: string, careOf: string | null, as: asAttr): string | null{
+export function getToProp(to: string | null | undefined, careOf: string | null | undefined, as: asAttr): string | null{
     let target = careOf || to;
+    if(!target) return null;
     const iPos = target.lastIndexOf('[');
     if(iPos === -1) return null;
     target = target.replace('[data-', '[-');
@@ -118,10 +121,11 @@ export function getToProp(to: string, careOf: string | null, as: asAttr): string
 }
 
 export function passVal(
-    val: any, self: HTMLElement, to: string | undefined, careOf: string | undefined, 
-    me: number | undefined, from, prop: string | undefined, as: asAttr, cachedMatches?: Element[] | undefined){
+    val: any, self: HTMLElement, to: string | undefined | null, careOf: string | undefined | null, 
+    me: number | undefined, from: string | undefined | null, prop: string | undefined | null, as: asAttr, cachedMatches?: Element[] | undefined){
     const matches = cachedMatches ?? findMatches(self, to, me, from, careOf);
     const toProp = prop || getToProp(to, careOf, as);
+    if(toProp === null) throw "No to prop."
     matches.forEach( match => {
         switch(as){
             case 'str-attr':
@@ -138,7 +142,7 @@ export function passVal(
                 }
                 break;
             default:
-                match[toProp] = val;
+                (<any>match)[toProp] = val;
 
         }
     });
@@ -172,7 +176,7 @@ export class OnToMe extends HTMLElement {
             this._lastVal = val;
             const me = g('me');
             const m = me === null ? Infinity : parseInt(me);
-            passVal(val, this, g('to')!, g('care-of'), m, g('from'), g('prop'), g('as'));
+            passVal(val, this, g('to')!, g('care-of'), m, g('from'), g('prop'), g('as') as asAttr);
         }
     }
     getVal(lastEvent: Event){

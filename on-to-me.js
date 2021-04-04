@@ -4,7 +4,7 @@
 export function getPreviousSib(self, observe) {
     let prevSib = self;
     //const observe = self.getAttribute('observe')
-    while (prevSib && (prevSib.hasAttribute('on') || (observe !== null && !prevSib.matches(observe)))) {
+    while (prevSib && (prevSib.hasAttribute('on') || (observe !== null && observe !== undefined && !prevSib.matches(observe)))) {
         prevSib = prevSib.previousElementSibling || self.parentElement;
     }
     return prevSib;
@@ -50,7 +50,7 @@ export function convert(val, parseValAs) {
     if (parseValAs === null)
         return val;
     let ret = val;
-    switch (this.parseValAs) {
+    switch (parseValAs) {
         case 'bool':
             ret = val === 'true';
             break;
@@ -78,34 +78,38 @@ export function lispToCamel(s) {
 }
 export function findMatches(start, match, m, from, careOf) {
     let returnObj = [];
+    match = match || '*';
     const ubound = m ?? Infinity;
     let count = 0;
+    let start2;
     if (from) {
-        start = start.closest(from);
+        start2 = start.closest(from);
     }
     else {
-        start = start.nextElementSibling;
+        start2 = start.nextElementSibling;
     }
-    while (start !== null) {
-        if (start.matches(match)) {
+    while (start2 !== null) {
+        if (start2.matches(match)) {
             if (careOf) {
-                const careOfs = Array.from(start.querySelectorAll(careOf));
+                const careOfs = Array.from(start2.querySelectorAll(careOf));
                 returnObj = returnObj.concat(careOfs);
                 count += careOfs.length;
             }
             else {
                 count++;
-                returnObj.push(start);
+                returnObj.push(start2);
             }
             if (count > ubound)
                 break;
         }
-        start = start.nextElementSibling;
+        start2 = start2.nextElementSibling;
     }
     return returnObj;
 }
 export function getToProp(to, careOf, as) {
     let target = careOf || to;
+    if (!target)
+        return null;
     const iPos = target.lastIndexOf('[');
     if (iPos === -1)
         return null;
@@ -116,6 +120,8 @@ export function getToProp(to, careOf, as) {
 export function passVal(val, self, to, careOf, me, from, prop, as, cachedMatches) {
     const matches = cachedMatches ?? findMatches(self, to, me, from, careOf);
     const toProp = prop || getToProp(to, careOf, as);
+    if (toProp === null)
+        throw "No to prop.";
     matches.forEach(match => {
         switch (as) {
             case 'str-attr':
