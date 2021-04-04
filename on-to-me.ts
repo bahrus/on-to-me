@@ -1,3 +1,5 @@
+import {asAttr} from './types.d.js';
+
 /**
 * get previous sibling
 */
@@ -106,22 +108,39 @@ export function findMatches(start: Element, match: string, m: number | undefined
     return returnObj;
 }
 
-export function getToProp(to: string, careOf: string | null, asStrAttr: boolean): string | null{
+export function getToProp(to: string, careOf: string | null, as: asAttr): string | null{
     let target = careOf || to;
     const iPos = target.lastIndexOf('[');
     if(iPos === -1) return null;
     target = target.replace('[data-', '[-');
     target = target.substring(iPos + 2, target.length - 1);
-    return asStrAttr ? target : lispToCamel(target);
+    return !!as ? target : lispToCamel(target);
 }
 
 export function passVal(
     val: any, self: HTMLElement, to: string | undefined, careOf: string | undefined, 
-    me: number | undefined, from, prop: string | undefined, asStrAttr: boolean, cachedMatches?: Element[] | undefined){
+    me: number | undefined, from, prop: string | undefined, as: asAttr, cachedMatches?: Element[] | undefined){
     const matches = cachedMatches ?? findMatches(self, to, me, from, careOf);
-    const toProp = prop || getToProp(to, careOf, asStrAttr);
+    const toProp = prop || getToProp(to, careOf, as);
     matches.forEach( match => {
-        asStrAttr ? match.setAttribute(toProp, val) :  match[toProp] = val;
+        switch(as){
+            case 'str-attr':
+                match.setAttribute(toProp, val.toString());
+                break;
+            case 'obj-attr':
+                match.setAttribute(toProp, JSON.stringify(val));
+                break;
+            case 'bool-attr':
+                if(val) {
+                    match.setAttribute(toProp, '');
+                }else{
+                    match.removeAttribute(toProp);
+                }
+                break;
+            default:
+                match[toProp] = val;
+
+        }
     });
     return matches;
 }
@@ -153,7 +172,7 @@ export class OnToMe extends HTMLElement {
             this._lastVal = val;
             const me = g('me');
             const m = me === null ? Infinity : parseInt(me);
-            passVal(val, this, g('to')!, g('care-of'), m, g('from'), g('prop'));
+            passVal(val, this, g('to')!, g('care-of'), m, g('from'), g('prop'), g('as'));
         }
     }
     getVal(lastEvent: Event){
@@ -168,7 +187,7 @@ export class OnToMe extends HTMLElement {
         const g = this._g;
         const to = this._g('to')!;
         const careOf = this._g('care-of');
-        passVal(this._lastVal, this, g('to')!, g('care-of'), g('me'), g('from'), g('prop'));
+        passVal(this._lastVal, this, g('to')!, g('care-of'), g('me'), g('from'), g('prop'), g('as'));
     }
 
 }
