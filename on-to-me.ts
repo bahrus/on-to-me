@@ -124,6 +124,12 @@ export function passVal(
     val: any, self: HTMLElement, to: string | undefined | null, careOf: string | undefined | null, 
     me: number | undefined, from: string | undefined | null, prop: string | undefined | null, as: asAttr, cachedMatches?: Element[] | undefined){
     const matches = cachedMatches ?? findMatches(self, to, me, from, careOf);
+    passValToMatches(matches, val, to, careOf, prop, as);
+    return matches;
+}
+
+export function passValToMatches(matches: Element[], val: any, to: string | undefined | null, careOf: string | undefined | null, prop: string | undefined | null,
+    as: asAttr){
     const toProp = prop || getToProp(to, careOf, as);
     if(toProp === null) throw "No to prop."
     matches.forEach( match => {
@@ -146,9 +152,7 @@ export function passVal(
 
         }
     });
-    return matches;
 }
-
 
 export class OnToMe extends HTMLElement {
     //_lastEvent: Event;

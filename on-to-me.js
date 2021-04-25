@@ -119,6 +119,10 @@ export function getToProp(to, careOf, as) {
 }
 export function passVal(val, self, to, careOf, me, from, prop, as, cachedMatches) {
     const matches = cachedMatches ?? findMatches(self, to, me, from, careOf);
+    passValToMatches(matches, val, to, careOf, prop, as);
+    return matches;
+}
+export function passValToMatches(matches, val, to, careOf, prop, as) {
     const toProp = prop || getToProp(to, careOf, as);
     if (toProp === null)
         throw "No to prop.";
@@ -142,7 +146,6 @@ export function passVal(val, self, to, careOf, me, from, prop, as, cachedMatches
                 match[toProp] = val;
         }
     });
-    return matches;
 }
 export class OnToMe extends HTMLElement {
     connectedCallback() {
