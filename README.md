@@ -20,11 +20,13 @@ Sample syntax:
 
 Features supported:
 
-Attributes:  on, to, val, me, care-of, from, init-val, mutate-event, parse-val-as
+Attributes:  on, to, val, me, care-of, from, init-val, mutate-event, parse-val-as, init-event
 
 mutate-event is used in conjunction with a web component like [mut-obs](https://github.com/bahrus/mut-obs), which can raise events when mutations occur.
 
 init-val allows us to pass an initial value from the observed element (e.g. init-val=value for an input element) just before attaching the event handler.
+
+init-event allows us to specify an event which the observed element fires, to (re-)apply the initVal.
 
 Features not supported:
 

@@ -155,7 +155,7 @@ export function passValToMatches(matches: Element[], val: any, to: string | unde
 }
 
 export class OnToMe extends HTMLElement {
-    //_lastEvent: Event;
+    //_lastEvent: Event  
     _lastVal: any;
     _g: any;
     connectedCallback(){
@@ -163,10 +163,8 @@ export class OnToMe extends HTMLElement {
         const g = this._g = this.getAttribute.bind(this);
         const elToObserve = getPreviousSib(this, g('observe'))!;
         nudge(elToObserve);
-        
         elToObserve.addEventListener(g('on')!, (e:Event) => {
             e.stopPropagation();
-            //this._lastEvent = e;
             this.getVal(e);
         });
         const mutateEvent = g('mutate-event');
@@ -175,13 +173,23 @@ export class OnToMe extends HTMLElement {
         });
         const initVal = g('init-val');
         if(initVal !== null){
-            let val = getProp(elToObserve, initVal.split('.'), this);
-            val = convert(val, g('parse-val-as'));
-            this._lastVal = val;
-            const me = g('me');
-            const m = me === null ? Infinity : parseInt(me);
-            passVal(val, this, g('to')!, g('care-of'), m, g('from'), g('prop'), g('as') as asAttr);
+            this.setInit(elToObserve, initVal);
+            const initEvent = g('init-event');
+            if(initEvent !== null){
+                elToObserve.addEventListener(initEvent, (e:Event) => {
+                    this.setInit(elToObserve, initVal);
+                }, {once: true});
+            }
         }
+    }
+    setInit(elToObserve: Element, initVal: string){
+        const g = this._g;
+        let val = getProp(elToObserve, initVal.split('.'), this);
+        val = convert(val, g('parse-val-as'));
+        this._lastVal = val;
+        const me = g('me');
+        const m = me === null ? Infinity : parseInt(me);
+        passVal(val, this, g('to')!, g('care-of'), m, g('from'), g('prop'), g('as') as asAttr);
     }
     getVal(lastEvent: Event){
         let val = getProp(lastEvent, this._g('val')?.split('.'), this);

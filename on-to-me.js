@@ -155,7 +155,6 @@ export class OnToMe extends HTMLElement {
         nudge(elToObserve);
         elToObserve.addEventListener(g('on'), (e) => {
             e.stopPropagation();
-            //this._lastEvent = e;
             this.getVal(e);
         });
         const mutateEvent = g('mutate-event');
@@ -165,13 +164,23 @@ export class OnToMe extends HTMLElement {
             });
         const initVal = g('init-val');
         if (initVal !== null) {
-            let val = getProp(elToObserve, initVal.split('.'), this);
-            val = convert(val, g('parse-val-as'));
-            this._lastVal = val;
-            const me = g('me');
-            const m = me === null ? Infinity : parseInt(me);
-            passVal(val, this, g('to'), g('care-of'), m, g('from'), g('prop'), g('as'));
+            this.setInit(elToObserve, initVal);
+            const initEvent = g('init-event');
+            if (initEvent !== null) {
+                elToObserve.addEventListener(initEvent, (e) => {
+                    this.setInit(elToObserve, initVal);
+                }, { once: true });
+            }
         }
+    }
+    setInit(elToObserve, initVal) {
+        const g = this._g;
+        let val = getProp(elToObserve, initVal.split('.'), this);
+        val = convert(val, g('parse-val-as'));
+        this._lastVal = val;
+        const me = g('me');
+        const m = me === null ? Infinity : parseInt(me);
+        passVal(val, this, g('to'), g('care-of'), m, g('from'), g('prop'), g('as'));
     }
     getVal(lastEvent) {
         let val = getProp(lastEvent, this._g('val')?.split('.'), this);
