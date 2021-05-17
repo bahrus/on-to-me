@@ -130,25 +130,29 @@ export function passVal(
 
 export function passValToMatches(matches: Element[], val: any, to: string | undefined | null, careOf: string | undefined | null, prop: string | undefined | null,
     as: asAttr){
-    const toProp = prop || getToProp(to, careOf, as);
+    //TODO:  Allow for both
+    const dynToProp = getToProp(to, careOf, as);
+    const hasBoth = !!prop && dynToProp !== null; //hasBoth is there for use with a proxy.
+    const toProp = hasBoth ? dynToProp : prop || dynToProp;
     if(toProp === null) throw "No to prop."
     matches.forEach( match => {
+        const subMatch = hasBoth ? (<any>match)[prop!] : match; // if both we are assuming a proxy
         switch(as){
             case 'str-attr':
-                match.setAttribute(toProp, val.toString());
+                subMatch.setAttribute(toProp, val.toString());
                 break;
             case 'obj-attr':
-                match.setAttribute(toProp, JSON.stringify(val));
+                subMatch.setAttribute(toProp, JSON.stringify(val));
                 break;
             case 'bool-attr':
                 if(val) {
-                    match.setAttribute(toProp, '');
+                    subMatch.setAttribute(toProp, '');
                 }else{
-                    match.removeAttribute(toProp);
+                    subMatch.removeAttribute(toProp);
                 }
                 break;
             default:
-                (<any>match)[toProp] = val;
+                (<any>subMatch)[toProp] = val;
 
         }
     });
