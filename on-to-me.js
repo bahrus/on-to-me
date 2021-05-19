@@ -123,14 +123,19 @@ export function passVal(val, self, to, careOf, me, from, prop, as, cachedMatches
     return matches;
 }
 export function passValToMatches(matches, val, to, careOf, prop, as) {
-    //TODO:  Allow for both
     const dynToProp = getToProp(to, careOf, as);
-    const hasBoth = !!prop && dynToProp !== null; //hasBoth is there for use with a proxy.
+    const hasBoth = !!prop && dynToProp !== null; //hasBoth is there for use with an element ref property.
     const toProp = hasBoth ? dynToProp : prop || dynToProp;
     if (toProp === null)
         throw "No to prop.";
     matches.forEach(match => {
-        const subMatch = hasBoth ? match[prop] : match; // if both we are assuming a proxy
+        let subMatch = match;
+        if (hasBoth) {
+            if (match[prop] === undefined) {
+                match[prop] = {};
+            }
+            subMatch = match[prop];
+        }
         switch (as) {
             case 'str-attr':
                 subMatch.setAttribute(toProp, val.toString());
