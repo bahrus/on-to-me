@@ -5,7 +5,9 @@ export function getPreviousSib(self, observe) {
     let prevSib = self;
     //const observe = self.getAttribute('observe')
     while (prevSib && (prevSib.hasAttribute('on') || (observe !== null && observe !== undefined && !prevSib.matches(observe)))) {
-        prevSib = prevSib.previousElementSibling || self.parentElement;
+        const nextPrevSib = prevSib.previousElementSibling || self.parentElement;
+        if (prevSib === nextPrevSib)
+            return null;
     }
     return prevSib;
 }
@@ -157,6 +159,9 @@ export function passValToMatches(matches, val, to, careOf, prop, as) {
     });
 }
 export class OnToMe extends HTMLElement {
+    //_lastEvent: Event  
+    _lastVal;
+    _g;
     connectedCallback() {
         this.style.display = 'none';
         const g = this._g = this.getAttribute.bind(this);
