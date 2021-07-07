@@ -9,6 +9,7 @@ export function getPreviousSib(self: Element, observe: string | null | undefined
    while(prevSib && (prevSib.hasAttribute('on') || (observe !== null && observe !== undefined && !prevSib.matches(observe)))){
        const nextPrevSib: Element | null = prevSib.previousElementSibling || self.parentElement;
        if(prevSib === nextPrevSib) return null;
+       prevSib = nextPrevSib;
    }
    return prevSib;
 }

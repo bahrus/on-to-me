@@ -8,6 +8,7 @@ export function getPreviousSib(self, observe) {
         const nextPrevSib = prevSib.previousElementSibling || self.parentElement;
         if (prevSib === nextPrevSib)
             return null;
+        prevSib = nextPrevSib;
     }
     return prevSib;
 }
@@ -159,9 +160,6 @@ export function passValToMatches(matches, val, to, careOf, prop, as) {
     });
 }
 export class OnToMe extends HTMLElement {
-    //_lastEvent: Event  
-    _lastVal;
-    _g;
     connectedCallback() {
         this.style.display = 'none';
         const g = this._g = this.getAttribute.bind(this);
