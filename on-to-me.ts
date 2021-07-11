@@ -117,7 +117,7 @@ export function getToProp(to: string | null | undefined, careOf: string | null |
     if(!target) return null;
     const iPos = target.lastIndexOf('[');
     if(iPos === -1) return null;
-    target = target.replace('[data-', '[-');
+    target = target.replace('[data-data-', '[-');
     target = target.substring(iPos + 2, target.length - 1);
     return !!as ? target : lispToCamel(target);
 }
