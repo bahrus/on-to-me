@@ -110,12 +110,14 @@ export function findMatches(start, match, m, from, careOf) {
 }
 export function getToProp(to, careOf, as) {
     let target = careOf || to;
-    if (!target)
+    if (!target || !target.endsWith(']'))
         return null;
     const iPos = target.lastIndexOf('[');
     if (iPos === -1)
         return null;
     target = target.replace('[data-data-', '[-');
+    if (target[iPos + 1] !== '-')
+        return null;
     target = target.substring(iPos + 2, target.length - 1);
     return !!as ? target : lispToCamel(target);
 }
@@ -159,9 +161,6 @@ export function passValToMatches(matches, val, to, careOf, prop, as) {
     });
 }
 export class OnToMe extends HTMLElement {
-    //_lastEvent: Event  
-    _lastVal;
-    _g;
     connectedCallback() {
         this.style.display = 'none';
         const g = this._g = this.getAttribute.bind(this);

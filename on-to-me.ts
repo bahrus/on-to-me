@@ -114,10 +114,11 @@ export function findMatches(start: Element, match: string | undefined | null, m:
 
 export function getToProp(to: string | null | undefined, careOf: string | null | undefined, as: asAttr): string | null{
     let target = careOf || to;
-    if(!target) return null;
+    if(!target || !target.endsWith(']')) return null;
     const iPos = target.lastIndexOf('[');
     if(iPos === -1) return null;
     target = target.replace('[data-data-', '[-');
+    if(target[iPos + 1] !== '-') return null;
     target = target.substring(iPos + 2, target.length - 1);
     return !!as ? target : lispToCamel(target);
 }
