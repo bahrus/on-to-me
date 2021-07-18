@@ -6,9 +6,8 @@ import {asAttr} from './types.d.js';
 export function getPreviousSib(self: Element, observe: string | null | undefined) : Element | null{
    let prevSib: Element | null = self;
    //const observe = self.getAttribute('observe')
-   const h  = prevSib.hasAttribute.bind(prevSib);
    //TODO:  use instanceof?
-   while(prevSib && (h('on') || h('val-from-target') || h('vtf') || (observe !== null && observe !== undefined && !prevSib.matches(observe)))){
+   while(prevSib && (prevSib.hasAttribute('on') || prevSib.hasAttribute('val-from-target') || prevSib.hasAttribute('vtf') || (observe !== null && observe !== undefined && !prevSib.matches(observe)))){
        const nextPrevSib: Element | null = prevSib.previousElementSibling || prevSib.parentElement;
        //if(prevSib === nextPrevSib) return null;
        prevSib = nextPrevSib;
