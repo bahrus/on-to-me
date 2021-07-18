@@ -160,7 +160,12 @@ export function passValToMatches(matches: Element[], val: any, to: string | unde
                 }
                 break;
             default:
-                (<any>subMatch)[toProp] = val;
+                if(toProp === '...'){
+                    Object.assign(subMatch, val);
+                }else{
+                    (<any>subMatch)[toProp] = val;
+                }
+                
 
         }
     });

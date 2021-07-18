@@ -156,7 +156,12 @@ export function passValToMatches(matches, val, to, careOf, prop, as) {
                 }
                 break;
             default:
-                subMatch[toProp] = val;
+                if (toProp === '...') {
+                    Object.assign(subMatch, val);
+                }
+                else {
+                    subMatch[toProp] = val;
+                }
         }
     });
 }
