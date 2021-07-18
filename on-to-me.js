@@ -4,7 +4,9 @@
 export function getPreviousSib(self, observe) {
     let prevSib = self;
     //const observe = self.getAttribute('observe')
-    while (prevSib && (prevSib.hasAttribute('on') || prevSib.hasAttribute('val-from-target') || (observe !== null && observe !== undefined && !prevSib.matches(observe)))) {
+    const h = prevSib.hasAttribute.bind(prevSib);
+    //TODO:  use instanceof?
+    while (prevSib && (h('on') || h('val-from-target') || h('vtf') || (observe !== null && observe !== undefined && !prevSib.matches(observe)))) {
         const nextPrevSib = prevSib.previousElementSibling || prevSib.parentElement;
         //if(prevSib === nextPrevSib) return null;
         prevSib = nextPrevSib;
