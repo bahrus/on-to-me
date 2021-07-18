@@ -33,9 +33,9 @@
   },
   "devDependencies": {
     "@skypack/package-check": "0.2.2",
-    "mut-obs": "0.0.7",
+    "mut-obs": "0.0.9",
     "terser": "5.7.0",
-    "xtal-test": "0.0.50"
+    "xtal-test": "0.0.51"
   },
   "author": "anderson.bruce.b@gmail.com",
   "license": "MIT",
