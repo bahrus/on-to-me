@@ -82,7 +82,7 @@ export function lispToCamel(s) {
 export function findMatches(start, match, m, from, careOf) {
     let returnObj = [];
     match = match || '*';
-    const ubound = m ?? Infinity;
+    const ubound = m || Infinity;
     let count = 0;
     let start2;
     if (from) {
@@ -123,7 +123,7 @@ export function getToProp(to, careOf, as) {
     return !!as ? target : lispToCamel(target);
 }
 export function passVal(val, self, to, careOf, me, from, prop, as, cachedMatches) {
-    const matches = cachedMatches ?? findMatches(self, to, me, from, careOf);
+    const matches = cachedMatches || findMatches(self, to, me, from, careOf);
     passValToMatches(matches, val, to, careOf, prop, as);
     return matches;
 }
