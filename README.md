@@ -30,7 +30,7 @@ init-event allows us to specify an event which the observed element fires, to (r
 
 Features not supported:
 
-1.  Ability to block stopping propagation -- always blocks propagation
+1.  Ability to stop blocking propagation -- always blocks propagation
 2.  Using properties instead of attributes to define the orchestration.
 3.  Debugging support
 4.  Ability to override value from event, filter events.
