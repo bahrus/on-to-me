@@ -167,6 +167,9 @@ export function passValToMatches(matches, val, to, careOf, prop, as) {
     });
 }
 export class OnToMe extends HTMLElement {
+    //_lastEvent: Event  
+    _lastVal;
+    _g;
     connectedCallback() {
         this.style.display = 'none';
         const g = this._g = this.getAttribute.bind(this);
@@ -177,8 +180,8 @@ export class OnToMe extends HTMLElement {
             this.getVal(e);
         });
         const mutateEvent = g('mutate-event');
-        if (mutateEvent !== null)
-            this.parentElement?.addEventListener(mutateEvent, (e) => {
+        if (mutateEvent !== null && this.parentElement !== null)
+            this.parentElement.addEventListener(mutateEvent, (e) => {
                 this.putVal();
             });
         const initVal = g('init-val');
@@ -202,7 +205,9 @@ export class OnToMe extends HTMLElement {
         passVal(val, this, g('to'), g('care-of'), m, g('from'), g('prop'), g('as'));
     }
     getVal(lastEvent) {
-        let val = getProp(lastEvent, this._g('val')?.split('.'), this);
+        const valAttr = this._g('val');
+        const split = valAttr !== null ? valAttr.split('.') : undefined;
+        let val = getProp(lastEvent, split, this);
         if (val === undefined)
             return;
         val = convert(val, this._g('parse-val-as'));
