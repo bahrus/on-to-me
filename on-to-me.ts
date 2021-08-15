@@ -88,7 +88,7 @@ export function lispToCamel(s: string){
 export function findMatches(start: Element, match: string | undefined | null, m: number | undefined, from: string | null | undefined, careOf: string | null | undefined): Element[]{
     let returnObj = [] as Element[];
     match = match || '*';
-    const ubound = m || Infinity;
+    const ubound = m ?? Infinity;
     let count = 0;
     let start2;
     if(from){
@@ -127,7 +127,7 @@ export function getToProp(to: string | null | undefined, careOf: string | null |
 export function passVal(
     val: any, self: HTMLElement, to: string | undefined | null, careOf: string | undefined | null, 
     me: number | undefined, from: string | undefined | null, prop: string | undefined | null, as: asAttr, cachedMatches?: Element[] | undefined){
-    const matches = cachedMatches || findMatches(self, to, me, from, careOf);
+    const matches = cachedMatches ?? findMatches(self, to, me, from, careOf);
     passValToMatches(matches, val, to, careOf, prop, as);
     return matches;
 }
@@ -186,7 +186,7 @@ export class OnToMe extends HTMLElement {
             this.getVal(e);
         });
         const mutateEvent = g('mutate-event');
-        if(mutateEvent !== null && this.parentElement !== null) this.parentElement.addEventListener(mutateEvent, (e:Event) => {
+        if(mutateEvent !== null) this.parentElement?.addEventListener(mutateEvent, (e:Event) => {
             this.putVal();
         });
         const initVal = g('init-val');
@@ -210,9 +210,7 @@ export class OnToMe extends HTMLElement {
         passVal(val, this, g('to')!, g('care-of'), m, g('from'), g('prop'), g('as') as asAttr);
     }
     getVal(lastEvent: Event){
-        const valAttr = this._g('val');
-        const split = valAttr !== null ? valAttr.split('.') : undefined;
-        let val = getProp(lastEvent, split, this);
+        let val = getProp(lastEvent, this._g('val')?.split('.'), this);
         if(val === undefined) return;
         val = convert(val, this._g('parse-val-as'));
         this._lastVal = val;

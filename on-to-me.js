@@ -82,7 +82,7 @@ export function lispToCamel(s) {
 export function findMatches(start, match, m, from, careOf) {
     let returnObj = [];
     match = match || '*';
-    const ubound = m || Infinity;
+    const ubound = m !== null && m !== void 0 ? m : Infinity;
     let count = 0;
     let start2;
     if (from) {
@@ -123,7 +123,7 @@ export function getToProp(to, careOf, as) {
     return !!as ? target : lispToCamel(target);
 }
 export function passVal(val, self, to, careOf, me, from, prop, as, cachedMatches) {
-    const matches = cachedMatches || findMatches(self, to, me, from, careOf);
+    const matches = cachedMatches !== null && cachedMatches !== void 0 ? cachedMatches : findMatches(self, to, me, from, careOf);
     passValToMatches(matches, val, to, careOf, prop, as);
     return matches;
 }
@@ -168,6 +168,7 @@ export function passValToMatches(matches, val, to, careOf, prop, as) {
 }
 export class OnToMe extends HTMLElement {
     connectedCallback() {
+        var _a;
         this.style.display = 'none';
         const g = this._g = this.getAttribute.bind(this);
         const elToObserve = getPreviousSib(this, g('observe'));
@@ -177,8 +178,8 @@ export class OnToMe extends HTMLElement {
             this.getVal(e);
         });
         const mutateEvent = g('mutate-event');
-        if (mutateEvent !== null && this.parentElement !== null)
-            this.parentElement.addEventListener(mutateEvent, (e) => {
+        if (mutateEvent !== null)
+            (_a = this.parentElement) === null || _a === void 0 ? void 0 : _a.addEventListener(mutateEvent, (e) => {
                 this.putVal();
             });
         const initVal = g('init-val');
@@ -202,9 +203,8 @@ export class OnToMe extends HTMLElement {
         passVal(val, this, g('to'), g('care-of'), m, g('from'), g('prop'), g('as'));
     }
     getVal(lastEvent) {
-        const valAttr = this._g('val');
-        const split = valAttr !== null ? valAttr.split('.') : undefined;
-        let val = getProp(lastEvent, split, this);
+        var _a;
+        let val = getProp(lastEvent, (_a = this._g('val')) === null || _a === void 0 ? void 0 : _a.split('.'), this);
         if (val === undefined)
             return;
         val = convert(val, this._g('parse-val-as'));
