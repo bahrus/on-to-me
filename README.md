@@ -2,11 +2,11 @@
 
 <a href="https://nodei.co/npm/on-to-me/"><img src="https://nodei.co/npm/on-to-me.png"></a>
 
-<img src="https://badgen.net/bundlephobia/minzip/on-to-me">
+<img src="https://badgen.net/bundlephobia/minzip/on-to-me@0.0.35">
 
 on-to-me is a small (~1kb) bare-bones version of [p-d](https://github.com/bahrus/p-et-alia).
 
-Like p-et-alia components, one of the goals is to reduce, as much as possible, the gap between "First Meaningful Paint" and "Time to Interactive".  on-to-me focuses squarely on that problem, whereas p-et-alia addresses larger issues.  on-to-me will, in the future, provide some common functions used by p-et-alia.
+Like p-et-alia components, one of the goals of on-to-me is to reduce, as much as possible, the gap between "First Meaningful Paint" and "Time to Interactive".  on-to-me focuses squarely on that problem, whereas p-et-alia addresses larger issues.  on-to-me will, in the future, provide some common functions used by p-et-alia.
 
 Sample syntax:
 
