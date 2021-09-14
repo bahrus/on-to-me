@@ -9,6 +9,7 @@
 		"watch": true
 	},
 	"files": [
-		"on-to-me.ts"
+		"on-to-me.ts",
+		"on-mixin.ts"
 	]
 }

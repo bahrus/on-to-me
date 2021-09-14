@@ -5,7 +5,7 @@ export function getPreviousSib(self, observe) {
     let prevSib = self;
     //const observe = self.getAttribute('observe')
     //TODO:  use instanceof?
-    while (prevSib && (prevSib.hasAttribute('on') || prevSib.hasAttribute('val-from-target') || prevSib.hasAttribute('vft') || (observe !== null && observe !== undefined && !prevSib.matches(observe)))) {
+    while (prevSib && (prevSib.hasAttribute('on') || prevSib.hasAttribute('val-from-target') || prevSib.hasAttribute('vft') || (observe && !prevSib.matches(observe)))) {
         const nextPrevSib = prevSib.previousElementSibling || prevSib.parentElement;
         //if(prevSib === nextPrevSib) return null;
         prevSib = nextPrevSib;
@@ -82,7 +82,7 @@ export function lispToCamel(s) {
 export function findMatches(start, match, m, from, careOf) {
     let returnObj = [];
     match = match || '*';
-    const ubound = m !== null && m !== void 0 ? m : Infinity;
+    const ubound = m ?? Infinity;
     let count = 0;
     let start2;
     if (from) {
@@ -123,7 +123,7 @@ export function getToProp(to, careOf, as) {
     return !!as ? target : lispToCamel(target);
 }
 export function passVal(val, self, to, careOf, me, from, prop, as, cachedMatches) {
-    const matches = cachedMatches !== null && cachedMatches !== void 0 ? cachedMatches : findMatches(self, to, me, from, careOf);
+    const matches = cachedMatches ?? findMatches(self, to, me, from, careOf);
     passValToMatches(matches, val, to, careOf, prop, as);
     return matches;
 }
@@ -167,8 +167,10 @@ export function passValToMatches(matches, val, to, careOf, prop, as) {
     });
 }
 export class OnToMe extends HTMLElement {
+    //_lastEvent: Event  
+    _lastVal;
+    _g;
     connectedCallback() {
-        var _a;
         this.style.display = 'none';
         const g = this._g = this.getAttribute.bind(this);
         const elToObserve = getPreviousSib(this, g('observe'));
@@ -179,7 +181,7 @@ export class OnToMe extends HTMLElement {
         });
         const mutateEvent = g('mutate-event');
         if (mutateEvent !== null)
-            (_a = this.parentElement) === null || _a === void 0 ? void 0 : _a.addEventListener(mutateEvent, (e) => {
+            this.parentElement?.addEventListener(mutateEvent, (e) => {
                 this.putVal();
             });
         const initVal = g('init-val');
@@ -203,8 +205,7 @@ export class OnToMe extends HTMLElement {
         passVal(val, this, g('to'), g('care-of'), m, g('from'), g('prop'), g('as'));
     }
     getVal(lastEvent) {
-        var _a;
-        let val = getProp(lastEvent, (_a = this._g('val')) === null || _a === void 0 ? void 0 : _a.split('.'), this);
+        let val = getProp(lastEvent, this._g('val')?.split('.'), this);
         if (val === undefined)
             return;
         val = convert(val, this._g('parse-val-as'));

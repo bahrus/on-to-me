@@ -2,16 +2,15 @@
   "name": "on-to-me",
   "version": "0.0.35",
   "keywords": [
-    "webcomponents",
-    "webcomponent",
-    "customelements",
-    "customelement",
-    "iframe",
-    "iframe-persister"
+    "web components",
+    "web component",
+    "custom elements",
+    "custom element"
   ],
   "exports": {
     ".": "./on-to-me.js",
-    "./on-to-me.js": "./on-to-me.js"
+    "./on-to-me.js": "./on-to-me.js",
+    "./on-mixin.js": "./on-mixin.js"
   },
   "files": [
     "on-to-me.js",
@@ -33,8 +32,8 @@
   },
   "devDependencies": {
     "@skypack/package-check": "0.2.2",
-    "mut-obs": "0.0.9",
-    "terser": "5.7.0",
+    "mut-obs": "0.0.10",
+    "terser": "5.8.0",
     "xtal-test": "0.0.51"
   },
   "author": "anderson.bruce.b@gmail.com",
