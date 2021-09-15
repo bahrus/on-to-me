@@ -10,6 +10,8 @@
 	},
 	"files": [
 		"on-to-me.ts",
-		"on-mixin.ts"
+		"on-mixin.ts",
+		"to-mixin.ts",
+		"prop-mixin.ts"
 	]
 }

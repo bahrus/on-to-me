@@ -10,11 +10,13 @@
   "exports": {
     ".": "./on-to-me.js",
     "./on-to-me.js": "./on-to-me.js",
-    "./on-mixin.js": "./on-mixin.js"
+    "./on-mixin.js": "./on-mixin.js",
+    "./to-mixin.js": "./to-mixin.js",
+    "./prop-mixin.js": "./prop-mixin.js"
   },
   "files": [
-    "on*.*",
-    "dist/on-to-me.min.js"
+    "*.ts",
+    "*.js"
   ],
   "types": "types.d.ts",
   "description": "Connect web components together declaratively.",
@@ -29,6 +31,9 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bahrus/on-to-me.git"
+  },
+  "dependencies": {
+    "trans-render": "0.0.406"
   },
   "devDependencies": {
     "@skypack/package-check": "0.2.2",

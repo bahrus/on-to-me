@@ -29,6 +29,8 @@ export interface OnMixinProps{
      * A Boolean indicating that events of this type will be dispatched to the registered listener before being dispatched to any EventTarget beneath it in the DOM tree.
     */
     capture: boolean;
+
+    observedElement : Element | null;
 }
 
 export interface OnMixinActions{

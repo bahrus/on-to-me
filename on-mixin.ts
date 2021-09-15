@@ -1,5 +1,5 @@
 import {OnMixinProps} from './types';
-import {nudge, getPreviousSib} from './on-to-me.js';
+
 export const OnMixin = (superclass: {new(): OnMixinProps & HTMLElement}) => class C extends superclass{
     _wr: WeakRef<Element> | undefined;
     locateAndListen({on, _wr, previousOn, handleEvent, parentElement, ifTargetMatches}: this) {
@@ -77,3 +77,34 @@ export const OnMixin = (superclass: {new(): OnMixinProps & HTMLElement}) => clas
         return {host};
     }
 }
+
+/**
+ * Decrement "disabled" counter, remove when reaches 0
+ * @param prevSib 
+ */
+ export function nudge(prevSib: Element) {
+    const da = prevSib.getAttribute('disabled');
+    if (da !== null) {
+        if (da.length === 0 || da === "1") {
+            prevSib.removeAttribute('disabled');
+        }
+        else {
+            prevSib.setAttribute('disabled', (parseInt(da) - 1).toString());
+        }
+    }
+}
+
+/**
+* get previous sibling
+*/
+export function getPreviousSib(self: Element, observe: string | null | undefined) : Element | null{
+    let prevSib: Element | null = self;
+    //const observe = self.getAttribute('observe')
+    //TODO:  use instanceof?
+    while(prevSib && (prevSib.hasAttribute('on') || prevSib.hasAttribute('val-from-target') || prevSib.hasAttribute('vft') || (observe && !prevSib.matches(observe)))){
+        const nextPrevSib: Element | null = prevSib.previousElementSibling || prevSib.parentElement;
+        //if(prevSib === nextPrevSib) return null;
+        prevSib = nextPrevSib;
+    }
+    return prevSib;
+ }
