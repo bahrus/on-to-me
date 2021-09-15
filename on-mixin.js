@@ -1,4 +1,3 @@
-import { nudge, getPreviousSib } from './on-to-me.js';
 export const OnMixin = (superclass) => class C extends superclass {
     _wr;
     locateAndListen({ on, _wr, previousOn, handleEvent, parentElement, ifTargetMatches }) {
@@ -78,3 +77,32 @@ export const OnMixin = (superclass) => class C extends superclass {
         return { host };
     }
 };
+/**
+ * Decrement "disabled" counter, remove when reaches 0
+ * @param prevSib
+ */
+export function nudge(prevSib) {
+    const da = prevSib.getAttribute('disabled');
+    if (da !== null) {
+        if (da.length === 0 || da === "1") {
+            prevSib.removeAttribute('disabled');
+        }
+        else {
+            prevSib.setAttribute('disabled', (parseInt(da) - 1).toString());
+        }
+    }
+}
+/**
+* get previous sibling
+*/
+export function getPreviousSib(self, observe) {
+    let prevSib = self;
+    //const observe = self.getAttribute('observe')
+    //TODO:  use instanceof?
+    while (prevSib && (prevSib.hasAttribute('on') || prevSib.hasAttribute('val-from-target') || prevSib.hasAttribute('vft') || (observe && !prevSib.matches(observe)))) {
+        const nextPrevSib = prevSib.previousElementSibling || prevSib.parentElement;
+        //if(prevSib === nextPrevSib) return null;
+        prevSib = nextPrevSib;
+    }
+    return prevSib;
+}
