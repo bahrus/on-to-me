@@ -81,7 +81,7 @@ export function findMatches(start: Element, match: string | undefined | null, m:
                 count++;
                 returnObj.push(start2);
             }
-            if(count > ubound) break;
+            if(count >= ubound) break;
         }
         start2 = start2.nextElementSibling;
     }

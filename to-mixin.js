@@ -79,7 +79,7 @@ export function findMatches(start, match, m, from, careOf) {
                 count++;
                 returnObj.push(start2);
             }
-            if (count > ubound)
+            if (count >= ubound)
                 break;
         }
         start2 = start2.nextElementSibling;
