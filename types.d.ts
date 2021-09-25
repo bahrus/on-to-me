@@ -35,7 +35,7 @@ export interface OnMixinProps{
 
 export interface OnMixinActions{
     locateAndListen(self: this): void;
-    doEvent(self: this): {cnt: number}; 
+    //doEvent(self: this): {cnt: number}; 
     getHost(self: this): {host: HTMLElement};   
     handleEvent: (e: Event) => void;
 }
