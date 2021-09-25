@@ -72,15 +72,14 @@ export const OnMixin = (superclass) => class C extends superclass {
             let prop = Object.getOwnPropertyDescriptor(proto, onProp);
             while (proto && !prop) {
                 proto = Object.getPrototypeOf(proto);
-                prop = Object.getOwnPropertyDescriptor(proto, on);
+                prop = Object.getOwnPropertyDescriptor(proto, onProp);
             }
-            //let prop = Object.getOwnPropertyDescriptor(elementToObserve, on!);
             if (prop === undefined) {
-                throw { elementToObserve, on, message: "Can't find property." };
+                throw { elementToObserve, onProp, message: "Can't find property." };
             }
             const setter = prop.set.bind(elementToObserve);
             const getter = prop.get.bind(elementToObserve);
-            Object.defineProperty(elementToObserve, on, {
+            Object.defineProperty(elementToObserve, onProp, {
                 get() {
                     return getter();
                 },
