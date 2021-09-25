@@ -63,8 +63,38 @@ export const OnMixin = (superclass) => class C extends superclass {
         this._wr = new WeakRef(elementToObserve);
         return elementToObserve;
     }
-    attach(elementToObserve, { on, handleEvent, capture }) {
-        elementToObserve.addEventListener(on, handleEvent, { capture: capture });
+    attach(elementToObserve, { on, onProp, handleEvent, capture }) {
+        if (on !== undefined) {
+            elementToObserve.addEventListener(on, handleEvent, { capture: capture });
+        }
+        if (onProp !== undefined) {
+            let proto = elementToObserve;
+            let prop = Object.getOwnPropertyDescriptor(proto, onProp);
+            while (proto && !prop) {
+                proto = Object.getPrototypeOf(proto);
+                prop = Object.getOwnPropertyDescriptor(proto, on);
+            }
+            //let prop = Object.getOwnPropertyDescriptor(elementToObserve, on!);
+            if (prop === undefined) {
+                throw { elementToObserve, on, message: "Can't find property." };
+            }
+            const setter = prop.set.bind(elementToObserve);
+            const getter = prop.get.bind(elementToObserve);
+            Object.defineProperty(elementToObserve, on, {
+                get() {
+                    return getter();
+                },
+                set(nv) {
+                    setter(nv);
+                    const event = {
+                        target: this
+                    };
+                    handleEvent(event);
+                },
+                enumerable: true,
+                configurable: true,
+            });
+        }
     }
     getHost({}) {
         let host = this.getRootNode().host;

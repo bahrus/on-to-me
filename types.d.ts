@@ -4,6 +4,7 @@ export type asAttr = 'str-attr' | 'bool-attr' | 'obj-attr' | undefined | null;
 
 export interface OnMixinProps{
     on: string;
+    onProp: string;
     observe: string;
     previousOn?: string;
 

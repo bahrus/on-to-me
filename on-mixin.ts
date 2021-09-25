@@ -62,8 +62,38 @@ export const OnMixin = (superclass: {new(): OnMixinProps & HTMLElement}) => clas
         return elementToObserve;
     }
 
-    attach(elementToObserve: Element, {on, handleEvent, capture}: this){
-        elementToObserve.addEventListener(on!, handleEvent, {capture: capture});
+    attach(elementToObserve: Element, {on, onProp, handleEvent, capture}: this){
+        if(on !== undefined){
+            elementToObserve.addEventListener(on!, handleEvent, {capture: capture});
+        }
+        if(onProp !== undefined){
+            let proto = elementToObserve;
+            let prop: PropertyDescriptor | undefined = Object.getOwnPropertyDescriptor(proto, onProp);
+            while(proto && !prop){
+                proto = Object.getPrototypeOf(proto);
+                prop = Object.getOwnPropertyDescriptor(proto, on);
+            }
+            //let prop = Object.getOwnPropertyDescriptor(elementToObserve, on!);
+            if(prop === undefined){
+                throw {elementToObserve, on, message: "Can't find property."};
+            }
+            const setter = prop.set!.bind(elementToObserve);
+            const getter = prop.get!.bind(elementToObserve);
+            Object.defineProperty(elementToObserve, on!, {
+                get(){
+                    return getter();
+                },
+                set(nv){
+                    setter(nv);
+                    const event = {
+                        target: this
+                    };
+                    handleEvent(event as Event);
+                },
+                enumerable: true,
+                configurable: true,
+            });     
+        }
     }
 
     getHost({}: this): {host: HTMLElement}{
