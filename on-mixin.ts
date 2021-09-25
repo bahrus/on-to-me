@@ -116,6 +116,7 @@ export const OnMixin = (superclass: {new(): OnMixinProps & HTMLElement}) => clas
     if (da !== null) {
         if (da.length === 0 || da === "1") {
             prevSib.removeAttribute('disabled');
+            (<any>prevSib).disabled = false;
         }
         else {
             prevSib.setAttribute('disabled', (parseInt(da) - 1).toString());
