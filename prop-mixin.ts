@@ -20,6 +20,16 @@ export function convert(val: string, parseValAs: string | null){
         case 'falsy':
             ret = !val;
             break;
+        case 'string':
+            switch(typeof val){
+                case 'string':
+                    ret = val;
+                    break;
+                case 'object':
+                    ret = JSON.stringify(val);
+                    break;
+            }
+            break;
     }
     return ret;
 }
