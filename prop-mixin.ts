@@ -56,7 +56,14 @@ export function getProp(val: any, pathTokens: (string | string[])[], src: Elemen
                         context = context[token];
                         break;
                     default:
-                        context = context[token[0]](token[1]); //allow for method calls
+                        //allow for method calls
+                        if(token[1] === ''){
+                            context = context[token[0]]();
+                        }else{
+                            //TODO:  try JSON.parse(token[1])
+                            context = context[token[0]](token[1]);
+                        }
+                         
                 }
             }
             first = false;
