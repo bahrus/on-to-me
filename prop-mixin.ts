@@ -34,6 +34,15 @@ export function convert(val: string, parseValAs: string | null){
     return ret;
 }
 
+export function splitExt(val: string){
+    const split = val.split('.');
+    return split.map(s => {
+        const subSplit = s.split('|');
+        if(subSplit.length > 1) return subSplit;
+        return s;
+    })
+}
+
 export function getProp(val: any, pathTokens: (string | [string, string[]])[], src: Element){
     let context = val;
     let first = true;
