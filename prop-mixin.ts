@@ -30,6 +30,15 @@ export function convert(val: string, parseValAs: string | null){
                     break;
             }
             break;
+        case 'object':
+            switch(typeof val){
+                case 'string':
+                    ret = JSON.parse(val);
+                    break;
+                case 'object':
+                    ret = val;
+                    break;
+            }
     }
     return ret;
 }
