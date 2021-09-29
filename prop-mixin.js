@@ -57,7 +57,7 @@ export function getProp(val, pathTokens, src) {
                         context = context[token];
                         break;
                     default:
-                        context = context[token[0]].apply(context, token[1]); //allow for method calls
+                        context = context[token[0]](token[1]); //allow for method calls
                 }
             }
             first = false;

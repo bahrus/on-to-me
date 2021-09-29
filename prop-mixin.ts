@@ -43,7 +43,7 @@ export function splitExt(val: string){
     })
 }
 
-export function getProp(val: any, pathTokens: (string | [string, string[]])[], src: Element){
+export function getProp(val: any, pathTokens: (string | string[])[], src: Element){
     let context = val;
     let first = true;
     pathTokens.forEach(token => {
@@ -56,7 +56,7 @@ export function getProp(val: any, pathTokens: (string | [string, string[]])[], s
                         context = context[token];
                         break;
                     default:
-                        context = context[token[0]].apply(context, token[1]); //allow for method calls
+                        context = context[token[0]](token[1]); //allow for method calls
                 }
             }
             first = false;
