@@ -1,4 +1,4 @@
-export function convert(val: string, parseValAs: string | null){
+export function convert(val: any, parseValAs: string | null){
     if(parseValAs === null) return val;
     let ret  = val as any;
     switch(parseValAs){
